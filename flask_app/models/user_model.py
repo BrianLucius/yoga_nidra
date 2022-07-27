@@ -1,6 +1,6 @@
-from urllib import response
+import os
 from flask_app.config.mysqlconnection import connectToMySQL
-from flask_app import re, os
+from flask_app import re
 
 from dotenv import load_dotenv
 load_dotenv()

@@ -17,8 +17,12 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <h1>My Dashboard</h1>
-        <h3>Welcome, {{ session.username }} </h3>
-        <h5><a href="/user/logout">Logout</a></h5>
+        <h3>Welcome {{ session.username }} </h3>
+        <h5><a href="/user/logout">Logout</a> | <a href="/dashboard">Dashboard</a></h5>
+        <div id="content">
+        </div>
+        <div id="qotd">
+        </div>
         <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
     </body>
 </html>
