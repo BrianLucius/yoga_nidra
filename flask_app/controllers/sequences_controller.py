@@ -41,3 +41,13 @@ def get_sequence():
     }
     result = Sequence.get_sequence_by_id(data)
     return jsonify(result), 200
+
+@app.route("/sequence/delete", methods=['POST'])
+def delete_sequence():
+    if 'user_id' not in session:
+        return redirect('/')
+    data = {
+        **request.get_json()
+    }
+    Sequence.delete_sequence(data)
+    return jsonify('success'), 200

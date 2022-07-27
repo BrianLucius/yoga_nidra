@@ -203,6 +203,14 @@ function view_sequence(id)
             sequence_last_played.innerHTML = "Last Played: "+ (!data[0].sequence_last_played == null ? data[0].sequence_last_played : "Never");
             content.appendChild(sequence_last_played);
 
+            let delete_sequence_btn = document.createElement('button');
+            delete_sequence_btn.id = data[0].id;
+            delete_sequence_btn.innerHTML = 'Delete Sequence';
+            delete_sequence_btn.addEventListener('click', function(){
+                btn_delete_sequence(this.id);
+            });
+            content.appendChild(delete_sequence_btn);
+
             for (let i=0; i<data[1].length; i++) {
                 console.log(data[1][i].card_content_front)
                 let card_title = document.createElement('h3');
@@ -229,6 +237,21 @@ function save_card_sequence()
         "sequence_card_sequence": my_sequence
     }
     fetch('http://localhost:5001/sequence/save', {method:'POST', body: JSON.stringify(sequence_data), headers: {'Content-type': 'application/json; charset=UTF-8'}})
+        .then(response => response.json())
+        .then(function(data) {
+            console.log(data);
+            get_user_sequences();
+        });
+    
+}
+
+function btn_delete_sequence(id)
+{
+    console.log("deleting sequence");
+    data = {
+        "sequence_id" : id
+    }
+    fetch('http://localhost:5001/sequence/delete', {method:'POST', body: JSON.stringify(data), headers: {'Content-type': 'application/json; charset=UTF-8'}})
         .then(response => response.json())
         .then(function(data) {
             console.log(data);
