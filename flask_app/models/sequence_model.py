@@ -34,15 +34,17 @@ class Sequence:
         query+= "WHERE id=%(id)s;"
         results = connectToMySQL(DATABASE).query_db(query, data)
 
-        query2 = "SELECT c.* "
-        query2+= "FROM sequences t "
+        query2 = "SELECT cards.*, phases.* "
+        query2+= "FROM sequences seq "
         query2+= "JOIN JSON_TABLE( "
-        query2+= "t.sequence_card_sequence, "
+        query2+= "seq.sequence_card_sequence, "
         query2+= "'$[*]' COLUMNS (card_id varchar(255) PATH '$') "
-        query2+= ") j "
-        query2+= "JOIN cards c "
-        query2+= "ON j.card_id = c.id "
-        query2+= "WHERE t.id = %(id)s;"
+        query2+= ") json "
+        query2+= "JOIN cards "
+        query2+= "ON json.card_id = cards.id "
+        query2+= "JOIN phases "
+        query2+= "ON cards.phase_id = phases.id "
+        query2+= "WHERE seq.id = %(id)s;"
         cards = connectToMySQL(DATABASE).query_db(query2, data)
         results.append(cards)
         return  results

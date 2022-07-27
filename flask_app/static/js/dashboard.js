@@ -38,7 +38,11 @@ function get_user_sequences(){
                 row.appendChild(description);
 
                 let visibility = document.createElement('td');
-                visibility.innerHTML = data[i].sequence_visibility;
+                if (data[i].sequence_visibility == 0) {
+                    visibility.innerHTML = "Private";
+                } else {
+                    visibility.innerHTML = "Public";
+                };
                 row.appendChild(visibility);
 
                 let view = document.createElement('td');
@@ -164,6 +168,9 @@ function btn_maintain_card_sequence(id)
 
 function view_sequence(id)
 {
+    var content = document.getElementById('content');
+    content.innerHTML = '';
+
     console.log("View Sequence", id)
     sequence_id = {
         "id": id
@@ -172,9 +179,43 @@ function view_sequence(id)
         .then(res =>  res.json())
         .then(data => {
             console.log(data)
-            // for (let i=0; i<data.length; i++) {
-            //     console.log(data[i])
-            //}
+            let sequence_title = document.createElement('h4');
+            sequence_title.innerHTML = "Title: "+data[0].sequence_title;
+            content.appendChild(sequence_title);
+
+            let sequence_description = document.createElement('h5');
+            sequence_description.innerHTML = "Description: "+data[0].sequence_description;
+            content.appendChild(sequence_description);
+
+            let sequence_visibility = document.createElement('h5');
+            if (data[0].sequence_visibility == 0) {
+                sequence_visibility.innerHTML = "Visibility: Private";
+            } else {
+                sequence_visibility.innerHTML = "Visibility: Public";
+            };
+            content.appendChild(sequence_visibility);
+
+            let sequence_played_count = document.createElement('h5');
+            sequence_played_count.innerHTML = "Played Count: "+data[0].sequence_played_count;
+            content.appendChild(sequence_played_count);
+
+            let sequence_last_played = document.createElement('h5');
+            sequence_last_played.innerHTML = "Last Played: "+ (!data[0].sequence_last_played == null ? data[0].sequence_last_played : "Never");
+            content.appendChild(sequence_last_played);
+
+            for (let i=0; i<data[1].length; i++) {
+                console.log(data[1][i].card_content_front)
+                let card_title = document.createElement('h3');
+                card_title.innerHTML =  data[1][i].phase_number_text+" "+
+                                        data[1][i].phase_name+" "+
+                                        data[1][i].phase_description+" "+
+                                        data[1][i].phase_choose_description;
+                content.appendChild(card_title);
+
+                let card_front = document.createElement('p');
+                card_front.innerHTML = data[1][i].card_content_front;
+                content.appendChild(card_front);
+            }
         });
 }
 
