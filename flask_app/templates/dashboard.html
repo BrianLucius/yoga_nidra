@@ -12,23 +12,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
     </head>
-    <style>
-        .watermark {
-            display: block;
-            position: relative;
-        }
-        .watermark::after {
-            content: "";
-            background: url("../static/images/aum-sm-transparent.png") bottom right no-repeat, linear-gradient(orange, #e66465, #9198e5);
-            opacity: 0.30;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            position: absolute;
-            z-index: -1;
-        }
-    </style>
     <body>
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
