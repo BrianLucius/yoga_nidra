@@ -14,79 +14,131 @@
 var my_sequence=[];
 
 function get_user_sequences(){
+    var content = document.getElementById('content');
+    content.innerHTML = '';
+
+    let page_header = document.createElement('div');
+    page_header.classList = "page-header mt-3 mb-3";
+    let page_title = document.createElement('h4');
+    page_title.innerHTML = "My Saved Yoga Nidra Sequences";
+    page_header.appendChild(page_title);
+    content.appendChild(page_header);
+
+    let table_layout = document.createElement('table');
+    table_layout.classList = "table table-striped table-hover";
+    let table_head = document.createElement('thead');
+    let table_row = document.createElement('tr');
+    let th_sequence_title = document.createElement('th');
+    th_sequence_title.innerHTML = "Title";
+    let th_sequence_visibility = document.createElement('th');
+    th_sequence_visibility.innerHTML = "Visibility";
+    let th_sequence_played = document.createElement('th');
+    th_sequence_played.innerHTML = 'Played Count';
+    let th_sequence_created = document.createElement('th');
+    th_sequence_created.innerHTML = "Date Created";
+    let th_sequence_view = document.createElement('th');
+    th_sequence_view.innerHTML = "";
+    let table_body = document.createElement('tbody');
+    table_head.appendChild(table_row);
+    table_row.appendChild(th_sequence_title);
+    table_row.appendChild(th_sequence_visibility);
+    table_row.appendChild(th_sequence_played);
+    table_row.appendChild(th_sequence_created);
+    table_row.appendChild(th_sequence_view);
+    table_layout.appendChild(table_head);
+    table_layout.appendChild(table_body);
+    // content.appendChild(table_layout);
+            // let table_body_row = document.createElement('tr');
+            // table_body.appendChild(table_body_row);
+            // table_body_row.appendChild(th_sequence_created);
     fetch('http://localhost:5001/sequences')
         .then(res =>  res.json())
         .then(data => {
-            var content = document.getElementById('content');
-            content.innerHTML = '';
-            let create_btn = document.createElement('button');
-            create_btn.innerHTML = 'Create New Sequence';
-            create_btn.id = 'create_sequence';
-            create_btn.addEventListener('click', function(){
-                create_sequence();
-            });
-            content.appendChild(create_btn);
             for (let i=0; i<data.length; i++) {
-                let row = document.createElement('tr');
+                let table_body_row = document.createElement('tr');
+                let td_sequence_title = document.createElement('td');
+                td_sequence_title.innerHTML = data[i].sequence_title;
+                table_body_row.appendChild(td_sequence_title);
 
-                let title = document.createElement('td');
-                title.innerHTML = data[i].sequence_title;
-                row.appendChild(title);
-                
-                let description = document.createElement('td');
-                description.innerHTML = data[i].sequence_description;
-                row.appendChild(description);
-
-                let visibility = document.createElement('td');
+                let td_sequence_visibility = document.createElement('td');
                 if (data[i].sequence_visibility == 0) {
-                    visibility.innerHTML = "Private";
+                    td_sequence_visibility.innerHTML = "Private";
                 } else {
-                    visibility.innerHTML = "Public";
+                    td_sequence_visibility.innerHTML = "Public";
                 };
-                row.appendChild(visibility);
+                table_body_row.appendChild(td_sequence_visibility);
 
-                let view = document.createElement('td');
-                let view_btn = document.createElement('button');
-                view_btn.id = data[i].id;
-                view_btn.innerHTML = 'View';
-                view_btn.addEventListener('click', function(){
+                let td_played_count = document.createElement('td');
+                td_played_count.innerHTML = data[i].sequence_played_count;
+                table_body_row.appendChild(td_played_count);
+
+                let td_date_created = document.createElement('td');
+                table_body_row.appendChild(td_date_created);
+                const date_created = new Date(data[i].created_at);
+                td_date_created.innerHTML = date_created.toDateString();
+                let td_view_btn = document.createElement('td');
+                let seq_view_btn = document.createElement('button');
+                seq_view_btn.id = data[i].id;
+                seq_view_btn.innerHTML = 'View Sequence';
+                seq_view_btn.classList =  "btn btn-outline-primary"
+                seq_view_btn.addEventListener('click', function(){
                     view_sequence(this.id);
                 });
-                view.appendChild(view_btn);
-                row.appendChild(view);
-                content.appendChild(row);
+                td_view_btn.appendChild(seq_view_btn);
+                table_body_row.appendChild(td_view_btn);
+                table_body.appendChild(table_body_row);
             }
+            content.appendChild(table_layout);
         })
 }
 get_user_sequences();
 
 function create_sequence() {
+
     my_sequence = [];
     var content = document.getElementById('content');
     content.innerHTML = '';
+
+    let page_header = document.createElement('div');
+    page_header.classList = "page-header mt-3 mb-3";
+    let page_title = document.createElement('h5');
+    page_title.innerHTML = "Create a New Yoga Nidra Sequence";
+    page_header.appendChild(page_title);
+    content.appendChild(page_header);
+
+    let header_row = document.createElement('div');
+    header_row.classList='row';
+    header_row.setAttribute("id","sequence_header");
+    let header_col1 = document.createElement('div');
+    header_col1.classList='col-4 bg-light';
+    let header_col2 = document.createElement('div');
+    header_col2.classList='col-4 bg-light';
+    let header_col3 = document.createElement('div');
+    header_col3.classList='col-2 bg-light';
+    let header_col4 = document.createElement('div');
+    header_col4.classList='col-2';
     
-    let label_title = document.createElement('label');
-    label_title.htmlFor = 'sequence_title';
-    let title_text = document.createTextNode('Sequence Title: ');
-    label_title.appendChild(title_text);
-    let sequence_title = document.createElement('input');
-    content.appendChild(label_title);
-    sequence_title.type = 'text';
-    sequence_title.id = 'sequence_title';
-    sequence_title.name = 'sequence_title';
-    content.appendChild(sequence_title);
+    content.appendChild(header_row);
+    header_row.appendChild(header_col1);
+    let sequence_title_input = document.createElement('input');
+    sequence_title_input.type = 'text';
+    sequence_title_input.classList = "form-control";
+    sequence_title_input.id = 'sequence_title';
+    sequence_title_input.name = 'sequence_title';
+    header_col1.appendChild(sequence_title_input);
 
-    let label_description = document.createElement('label');
-    label_description.htmlFor = 'sequence_description';
-    let description_text = document.createTextNode('Sequence Description: ');
-    label_description.appendChild(description_text);
-    let sequence_description = document.createElement('input');
-    content.appendChild(label_description);
-    sequence_description.type = 'text';
-    sequence_description.id = 'sequence_description';
-    content.appendChild(sequence_description);
+    header_row.appendChild(header_col2);
+    let sequence_description_input = document.createElement('input');
+    sequence_description_input.type = 'text';
+    sequence_description_input.classList = "form-control";
+    sequence_description_input.id = 'sequence_description';
+    sequence_description_input.name = 'sequence_description';
+    header_col2.appendChild(sequence_description_input);
 
-    let sequence_visibility_private = document.createElement('input')
+    header_row.appendChild(header_col3);
+    let radio_button_div_private = document.createElement('div');
+    header_col3.appendChild(radio_button_div_private);
+    let sequence_visibility_private = document.createElement('input');
     sequence_visibility_private.type = 'radio';
     sequence_visibility_private.id = 'visibility';
     sequence_visibility_private.name = 'visibility';
@@ -97,9 +149,11 @@ function create_sequence() {
     label_private.htmlFor = 'visibility';
     let private_text = document.createTextNode('Private');
     label_private.appendChild(private_text);
-    content.appendChild(sequence_visibility_private);
-    content.appendChild(label_private);
+    radio_button_div_private.appendChild(sequence_visibility_private);
+    radio_button_div_private.appendChild(label_private);
     
+    let radio_button_div_public = document.createElement('div');
+    header_col3.appendChild(radio_button_div_public);
     let sequence_visibility_public = document.createElement('input')
     sequence_visibility_public.type = 'radio';
     sequence_visibility_public.id = 'visibility';
@@ -110,46 +164,94 @@ function create_sequence() {
     label_public.htmlFor = 'visibility';
     let public_text = document.createTextNode('Public');
     label_public.appendChild(public_text);
-    content.appendChild(sequence_visibility_public);
-    content.appendChild(label_public);
+    radio_button_div_public.appendChild(sequence_visibility_public);
+    radio_button_div_public.appendChild(label_public);
 
+
+    header_row.appendChild(header_col4);
+    let header_save_btn = document.createElement('p');
+    header_save_btn.innerHTML='';
+    header_col4.appendChild(header_save_btn);
+
+    let save_btn = document.createElement('button');
+    save_btn.innerHTML = 'Save Sequence';
+    save_btn.classList = "btn btn-success";
+    save_btn.addEventListener('click', function(){
+        save_card_sequence();
+    });
+    header_col4.appendChild(save_btn);
+
+    content.appendChild(header_row);
+    header_row.appendChild(header_col1);
+    let header_title = document.createElement('p');
+    header_title.innerHTML='Title';
+    header_col1.appendChild(header_title);
+
+    header_row.appendChild(header_col2);
+    let header_description = document.createElement('p');
+    header_description.innerHTML='Description';
+    header_col2.appendChild(header_description);
+
+    header_row.appendChild(header_col3);
+    let header_visibility = document.createElement('p');
+    header_visibility.innerHTML='Visibility';
+    header_col3.appendChild(header_visibility);
+
+    header_row.appendChild(header_col4);
+    let header_save = document.createElement('p');
+    header_save.innerHTML='';
+    header_col4.appendChild(header_save);
+
+    let card_row = document.createElement('div');
+    card_row.classList = "row";
+    card_row.setAttribute("id","cards_list");
+    content.appendChild(card_row);
+    let card_col = document.createElement('div');
+    card_col.classList = "col-md-12";
+    card_row.appendChild(card_col);
+    let card_id_div = document.createElement("div");
+    card_id_div.setAttribute("id", "sequence-cards");
+    card_col.appendChild(card_id_div);
 
     fetch('http://localhost:5001/cards')
         .then(res =>  res.json())
         .then(data => {
             for (let i=0; i<data.length; i++) {
-                let row = document.createElement('tr');
-                
-                let card_number = document.createElement('td');
-                card_number.innerHTML = data[i].card_number;
-                row.appendChild(card_number);
-
-                let card_title = document.createElement('td');
-                card_title.innerHTML = data[i].card_title;
-                row.appendChild(card_title);
-
-                let card_content_front = document.createElement('td');
-                card_content_front.innerHTML = data[i].card_content_front;
-                row.appendChild(card_content_front);
-
-                let add = document.createElement('td');
+                let card_class = document.createElement("div");
+                card_class.classList = "card";
+                let card_header_class = document.createElement("div");
+                card_header_class.classList = "card-header phase"+ data[i].phase_number;
+                card_class.appendChild(card_header_class);
+                let card_header_def = document.createElement("a");
+                card_header_def.setAttribute("class", "link-light text-decoration-none");
+                card_header_def.setAttribute("data-toggle", "collapse");
+                card_header_def.setAttribute("data-parent", "#sequence-cards");
+                card_header_def.setAttribute("href", "#card-element-"+data[i].id);
+                card_header_def.innerHTML = data[i].phase_number_text+" "+
+                                        data[i].phase_name+" "+
+                                        data[i].phase_description+" "+
+                                        data[i].phase_choose_description+" &emsp;"+
+                                        data[i].card_title;
+                card_header_class.appendChild(card_header_def);
+                let card_body_def = document.createElement("div");
+                card_body_def.classList = "collapse text-bg-light bg-parchment";
+                card_body_def.setAttribute("id", "card-element-"+data[i].id);
+                card_class.appendChild(card_body_def);
+                let card_body_class = document.createElement("div");
+                card_body_class.classList = "card-body";
+                card_body_class.innerHTML = data[i].card_content_front;
+                card_body_def.appendChild(card_body_class);
                 let add_btn = document.createElement('button');
                 add_btn.id = data[i].id;
                 add_btn.innerHTML = 'Add to Sequence';
+                add_btn.classList = "btn btn-outline-success m-3";
                 add_btn.addEventListener('click', function(){
                     btn_maintain_card_sequence(this.id);
                 });
-                add.appendChild(add_btn);
-                row.appendChild(add);
-                content.appendChild(row);
+                card_body_def.appendChild(add_btn);
+                card_id_div.appendChild(card_class);
             }
         })
-    let save_btn = document.createElement('button');
-    save_btn.innerHTML = 'Save Sequence';
-    save_btn.addEventListener('click', function(){
-        save_card_sequence();
-    });
-    content.appendChild(save_btn);
 }
 
 function btn_maintain_card_sequence(id)
@@ -159,10 +261,12 @@ function btn_maintain_card_sequence(id)
         let index = my_sequence.indexOf(id);
         my_sequence.splice(index,1);
         active_btn.innerHTML="Add to Sequence";
+        active_btn.classList="btn btn-outline-success m-3"
     }
     else {
         my_sequence.push(id);
         active_btn.innerHTML="Remove from Sequence";
+        active_btn.classList="btn btn-danger m-3";
     }
 }
 
@@ -178,51 +282,120 @@ function view_sequence(id)
     fetch('http://localhost:5001/sequence/view', {method:'POST', body: JSON.stringify(sequence_id), headers: {'Content-type': 'application/json; charset=UTF-8'}})
         .then(res =>  res.json())
         .then(data => {
-            console.log(data)
-            let sequence_title = document.createElement('h4');
-            sequence_title.innerHTML = "Title: "+data[0].sequence_title;
-            content.appendChild(sequence_title);
+            //  console.log(data);
+            let page_header = document.createElement('div');
+            page_header.classList = "page-header mt-3 mb-3";
+            let page_title = document.createElement('h5');
+            page_title.innerHTML = "Viewing Saved Sequence";
+            page_header.appendChild(page_title);
+            content.appendChild(page_header);
 
-            let sequence_description = document.createElement('h5');
-            sequence_description.innerHTML = "Description: "+data[0].sequence_description;
-            content.appendChild(sequence_description);
-
-            let sequence_visibility = document.createElement('h5');
+            let header_row = document.createElement('div');
+            header_row.classList='row';
+            header_row.setAttribute("id","sequence_header");
+            let header_col1 = document.createElement('div');
+            header_col1.classList='col-4 bg-light';
+            let header_col2 = document.createElement('div');
+            header_col2.classList='col-2 bg-light';
+            let header_col3 = document.createElement('div');
+            header_col3.classList='col-2 bg-light';
+            let header_col4 = document.createElement('div');
+            header_col4.classList='col-2 bg-light';
+            let header_col5 = document.createElement('div');
+            header_col5.classList='col-2';
+            
+            content.appendChild(header_row);
+            header_row.appendChild(header_col1);
+            let header_title_data = document.createElement('h4');
+            header_title_data.innerHTML=data[0].sequence_title;
+            header_col1.appendChild(header_title_data);
+            header_row.appendChild(header_col2);
+            let header_visibility_data = document.createElement('h4');
             if (data[0].sequence_visibility == 0) {
-                sequence_visibility.innerHTML = "Visibility: Private";
-            } else {
-                sequence_visibility.innerHTML = "Visibility: Public";
-            };
-            content.appendChild(sequence_visibility);
-
-            let sequence_played_count = document.createElement('h5');
-            sequence_played_count.innerHTML = "Played Count: "+data[0].sequence_played_count;
-            content.appendChild(sequence_played_count);
-
-            let sequence_last_played = document.createElement('h5');
-            sequence_last_played.innerHTML = "Last Played: "+ (!data[0].sequence_last_played == null ? data[0].sequence_last_played : "Never");
-            content.appendChild(sequence_last_played);
-
+                header_visibility_data.innerHTML = "Private";
+                } else {
+                    header_visibility_data.innerHTML = "Public";
+                };
+            header_col2.appendChild(header_visibility_data);
+            header_row.appendChild(header_col3);
+            let header_played_count_data = document.createElement('h4');
+            header_played_count_data.innerHTML=data[0].sequence_played_count;
+            header_col3.appendChild(header_played_count_data);
+            header_row.appendChild(header_col4);
+            let header_last_played_data = document.createElement('h4');
+            header_last_played_data.innerHTML=!data[0].sequence_last_played == null ? data[0].sequence_last_played : "Never";
+            header_col4.appendChild(header_last_played_data);
+            header_row.appendChild(header_col5);
             let delete_sequence_btn = document.createElement('button');
             delete_sequence_btn.id = data[0].id;
             delete_sequence_btn.innerHTML = 'Delete Sequence';
+            delete_sequence_btn.classList = "btn btn-danger"
             delete_sequence_btn.addEventListener('click', function(){
                 btn_delete_sequence(this.id);
             });
-            content.appendChild(delete_sequence_btn);
+            header_col5.appendChild(delete_sequence_btn);
 
+            content.appendChild(header_row);
+            header_row.appendChild(header_col1);
+            let header_title = document.createElement('p');
+            header_title.innerHTML='Title';
+            header_col1.appendChild(header_title);
+            header_row.appendChild(header_col2);
+            let header_visibility = document.createElement('p');
+            header_visibility.innerHTML='Visibility';
+            header_col2.appendChild(header_visibility);
+            header_row.appendChild(header_col3);
+            let header_played_count = document.createElement('p');
+            header_played_count.innerHTML='Played Count';
+            header_col3.appendChild(header_played_count);
+            header_row.appendChild(header_col4);
+            let header_last_played = document.createElement('p');
+            header_last_played.innerHTML='Last Played';
+            header_col4.appendChild(header_last_played);
+            header_row.appendChild(header_col5);
+            let header_delete = document.createElement('p');
+            header_delete.innerHTML='';
+            header_col5.appendChild(header_delete);
+            
+            let card_row = document.createElement('div');
+            card_row.classList = "row";
+            card_row.setAttribute("id","cards_list");
+            content.appendChild(card_row);
+            let card_col = document.createElement('div');
+            card_col.classList = "col-md-12";
+            card_row.appendChild(card_col);
+            let card_id_div = document.createElement("div");
+            card_id_div.setAttribute("id", "sequence-cards");
+            card_col.appendChild(card_id_div);
+
+            // for (let i=0; i<1; i++) {
             for (let i=0; i<data[1].length; i++) {
-                console.log(data[1][i].card_content_front)
-                let card_title = document.createElement('h3');
-                card_title.innerHTML =  data[1][i].phase_number_text+" "+
+            //     // console.log(data[1][i].card_content_front)
+                let card_class = document.createElement("div");
+                card_class.classList = "card";
+                let card_header_class = document.createElement("div");
+                card_header_class.classList = "card-header phase"+data[1][i].phase_number;
+                card_class.appendChild(card_header_class);
+                let card_header_def = document.createElement("a");
+                card_header_def.setAttribute("class", "link-light text-decoration-none");
+                card_header_def.setAttribute("data-toggle", "collapse");
+                card_header_def.setAttribute("data-parent", "#sequence-cards");
+                card_header_def.setAttribute("href", "#card-element-"+data[1][i].id);
+                card_header_def.innerHTML =  data[1][i].phase_number_text+" "+
                                         data[1][i].phase_name+" "+
                                         data[1][i].phase_description+" "+
-                                        data[1][i].phase_choose_description;
-                content.appendChild(card_title);
-
-                let card_front = document.createElement('p');
-                card_front.innerHTML = data[1][i].card_content_front;
-                content.appendChild(card_front);
+                                        data[1][i].phase_choose_description+" &emsp;"+
+                                        data[1][i].card_title;
+                card_header_class.appendChild(card_header_def);
+                let card_body_def = document.createElement("div");
+                card_body_def.classList = "collapse text-bg-light bg-parchment";
+                card_body_def.setAttribute("id", "card-element-"+data[1][i].id);
+                card_class.appendChild(card_body_def);
+                let card_body_class = document.createElement("div");
+                card_body_class.classList = "card-body";
+                card_body_class.innerHTML = data[1][i].card_content_front;
+                card_body_def.appendChild(card_body_class);
+                card_id_div.appendChild(card_class);
             }
         });
 }

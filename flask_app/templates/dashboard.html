@@ -12,17 +12,54 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
     </head>
+    <style>
+        .watermark {
+            display: block;
+            position: relative;
+        }
+        .watermark::after {
+            content: "";
+            background: url("../static/images/aum-sm-transparent.png") bottom right no-repeat, linear-gradient(orange, #e66465, #9198e5);
+            opacity: 0.30;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            position: absolute;
+            z-index: -1;
+        }
+    </style>
     <body>
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <h1>My Dashboard</h1>
-        <h3>Welcome {{ session.username }} </h3>
-        <h5><a href="/user/logout">Logout</a> | <a href="/dashboard">Dashboard</a></h5>
-        <div id="content">
-        </div>
-        <div id="qotd">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <p class="nav-link disabled">Welcome {{ session.username }}!</p>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" id="dashboard" href="#" onclick="get_user_sequences();">My Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="create_sequence" href="#" onclick="create_sequence();">Create New Sequence</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#">My Profile</a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/logout">Logout</a>
+                        </li>
+                    </ul>
+                    <div id="content">
+                    </div>
+                </div>
+            </div>
         </div>
         <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     </body>
 </html>

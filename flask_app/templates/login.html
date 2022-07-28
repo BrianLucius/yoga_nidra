@@ -12,36 +12,57 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
     </head>
+    <style>
+        .watermark {
+            display: block;
+            position: relative;
+        }
+        .watermark::after {
+            content: "";
+            background: url("../static/images/aum-sm-transparent.png") bottom right no-repeat, linear-gradient(orange, #e66465, #9198e5);
+            opacity: 0.30;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            position: absolute;
+            z-index: -1;
+        }
+    </style>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        <div id="app-title">
-            <h1>Amrit Method(tm)</h1>
-            <h3>Yoga Nidra Guided Meditation</h3>
-            <h3>Facilitator Script Manager</h3>
-        </div>
-        <div id="login-box">
-            <div id="login-form">
-                <form id="userLoginForm" method = "POST">
-                    <div class="login_error" id="login_error_invalid_credentials"></div>
-                    <div>
-                        <label for="username">Username</label>
-                        <div class="login_error" id="login_error_username"></div>
-                        <input type="text" name="username" id="username" placeholder="Enter your username">
+        <div class="container vh-100 border border-dark m-5 watermark">
+                <!--[if lt IE 7]>
+                    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+                <![endif]-->
+                <div class="row text-center">
+                    <div class="col">
+                        <h1>Amrit Method &trade;</h1>
+                        <h3>Yoga Nidra Guided Meditation</h3>
+                        <h3>Facilitator Script Manager</h3>
                     </div>
-                    <div>
-                        <label for="password">Password</label>
-                        <div class="login_error" id="login_error_password"></div>
-                        <input type="password" name="password" id="password" placeholder="Enter your password">
+                </div>
+                <div id="login-box" class="border border-dark p-3 w-50 bg-light">
+                    <div id="login-form">
+                        <form id="userLoginForm" method = "POST">
+                            <div class="login_error" id="login_error_invalid_credentials"></div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text w-25" id="basic-addon1">Username</span>
+                                <input class="form-control" type="text" name="username" id="username" placeholder="Enter your username">
+                            </div>
+                            <div class="login_error" id="login_error_username"></div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text w-25" id="basic-addon1">Password</span>
+                                <input class="form-control" type="password" name="password" id="password" placeholder="Enter your password">
+                            </div>
+                            <div class="login_error" id="login_error_password"></div>
+                            <button class="btn btn-outline-success mb-3" type="submit">Login</button>
+                        </form>
                     </div>
-                    <button type="submit">Login</button>
-                </form>
+                    <div id="login-links">
+                        <a href="/recover">I forgot my Username or Password</a> | <a href="/register">Sign Up</a>
+                    </div>
+                </div>
             </div>
-            <div id="login-links">
-                <a href="/recover">I forgot my Username or Password</a> | <a href="/register">Sign Up</a>
-            </div>
-        </div>
         <script src="{{ url_for('static', filename='js/login.js') }}"></script>
     </body>
 </html>

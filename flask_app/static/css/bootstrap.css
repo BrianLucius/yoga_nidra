@@ -5,6 +5,70 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
+ /* Nidra Card Colors */
+
+ .bg-parchment {
+  --bs-bg-opacity: 1;
+  background-color: rgba(191,191,180, var(--bs-bg-opacity)) !important;
+ }
+
+.phase1 {
+  --bs-bg-opacity: 1;
+  background-color: rgba(207,177,27, var(--bs-bg-opacity)) !important;
+  }
+
+.phase2 {
+  --bs-bg-opacity: 1;
+  background-color: rgba(168,50,84, var(--bs-bg-opacity)) !important;
+}
+
+.phase3 {
+  --bs-bg-opacity: 1;
+  background-color: rgba(41,26,97, var(--bs-bg-opacity)) !important;
+}
+
+.phase4 {
+  --bs-bg-opacity: 1;
+  background-color: rgba(69,19,61, var(--bs-bg-opacity)) !important;
+}
+
+.phase5 {
+  --bs-bg-opacity: 1;
+  background-color: rgba(9,25,66, var(--bs-bg-opacity)) !important;
+}
+
+.phase6 {
+  --bs-bg-opacity: 1;
+  background-color: rgba(10,51,25, var(--bs-bg-opacity)) !important;
+}
+
+.phase7 {
+  --bs-bg-opacity: 1;
+  background-color: rgba(46,28,29, var(--bs-bg-opacity)) !important;
+}
+
+.phase8 {
+  --bs-bg-opacity: 1;
+  background-color: rgba(84,11,57, var(--bs-bg-opacity)) !important;
+}
+
+.phase9 {
+  --bs-bg-opacity: 1;
+  background-color: rgba(3,82,33, var(--bs-bg-opacity)) !important;
+}
+
+.phase10 {
+  --bs-bg-opacity: 1;
+  background-color: rgba(54,6,84, var(--bs-bg-opacity)) !important;
+}
+
+.phase11 {
+  --bs-bg-opacity: 1;
+  background-color: rgba(15,45,191, var(--bs-bg-opacity)) !important;
+}
+/* End nidra card colors */
+
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -7533,6 +7597,10 @@ textarea.form-control-lg {
 
 .w-25 {
   width: 25% !important;
+}
+
+.w-35 {
+  width: 35% !important;
 }
 
 .w-50 {

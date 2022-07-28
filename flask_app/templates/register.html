@@ -13,50 +13,58 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-
-        <div id="registration-box">
-            <h1>Create Your Account</h1>
-            <div id="registration-form">
-                <form id="userRegistrationForm" method = "POST">
-                    <div>
-                        <label for="first_name">First Name</label>
-                        <div class="registration_error" id="error_registration_first_name"></div>
-                        <input type="text" name="first_name" id="first_name" placeholder="Enter your first name">
+        <div class="container m-5 ">
+            <!--[if lt IE 7]>
+                <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+            <div class="row">
+                <div class="col-6">
+                    <div class="align-items" id="registration-box">
+                        <h1 class="text-center mb-3">Create Your Account</h1>
+                        <div id="registration-form">
+                            <form id="userRegistrationForm" method = "POST">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text w-35" id="basic-addon1">First Name</span>
+                                    <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Enter your first name">
+                                </div>
+                                <div class="registration_error" id="error_registration_first_name"></div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text w-35" id="basic-addon1">Last Name</span>
+                                    <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Enter your last name">
+                                </div>
+                                <div class="registration_error" id="error_registration_last_name"></div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text w-35" id="basic-addon1">Username</span>
+                                    <input class="form-control" type="text" name="username" id="username" placeholder="Choose a username">
+                                </div>
+                                <div class="registration_error" id="error_registration_username"></div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text w-35" id="basic-addon1">Email</span>
+                                    <input class="form-control" type="text" name="email" id="email" placeholder="Enter your email address">
+                                </div>
+                                <div class="registration_error" id="error_registration_email"></div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text w-35" id="basic-addon1">Password</span>
+                                    <input class="form-control" type="password" name="password" id="password" placeholder="Choose a password">
+                                </div>
+                                <div class="registration_error" id="error_registration_password"></div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text w-35" id="basic-addon1">Confirm Password</span>
+                                    <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" placeholder="Retype your password">
+                                </div>
+                                <div class="registration_error" id="error_registration_password_confirmation"></div>
+                                <button class="btn btn-outline-success m-3" type="submit">Create my Account</button>
+                            </form>
+                        </div>
+                        <div id="login-links">
+                            <a href="/recover">I forgot my Username or Password</a> | <a href="/">Back to Login</a>
+                        </div>
                     </div>
-                    <div>
-                        <label for="last_name">Last Name</label>
-                        <div class="registration_error" id="error_registration_last_name"></div>
-                        <input type="text" name="last_name" id="last_name" placeholder="Enter your last name">
-                    </div>
-                    <div>
-                        <label for="username">Username</label>
-                        <div class="registration_error" id="error_registration_username"></div>
-                        <input type="text" name="username" id="username" placeholder="Choose a username">
-                    </div>
-                    <div>
-                        <label for="email">Email</label>
-                        <div class="registration_error" id="error_registration_email"></div>
-                        <input type="text" name="email" id="email" placeholder="Enter your email address">
-                    </div>
-                    <div>
-                        <label for="password">Password</label>
-                        <div class="registration_error" id="error_registration_password"></div>
-                        <input type="password" name="password" id="password" placeholder="Choose a password">
-                    </div>
-                    <div>
-                        <label for="password_confirmation">Confirm Password</label>
-                        <div class="registration_error" id="error_registration_password_confirmation"></div>
-                        <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Retype your password">
-                    </div>
-                    <button type="submit">Create my Account</button>
-                </form>
-            </div>
-            <div id="login-links">
-                <a href="/recover">I forgot my Username or Password</a> | <a href="/">Back to Login</a>
-            </div>
+                </div>
+                <div class="col-6">
+                    <img class="img-fluid opacity-50 rounded-4" src="../static/images/pexels-elina-fairytale-3822647.jpg" alt="A woman lying in savasana pose">
+                </div>
+            </div> 
         </div>
         <script src="{{ url_for('static', filename='js/register.js') }}"></script>
     </body>

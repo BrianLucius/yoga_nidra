@@ -25,7 +25,7 @@ class Card:
 
     @classmethod
     def get_all_cards(cls):
-        query = "SELECT cards.id, cards.phase_id, phases.phase_number, phases.phase_name, phases.phase_description, "
+        query = "SELECT cards.id, cards.phase_id, phases.phase_number, phases.phase_number_text, phases.phase_name, phases.phase_description, "
         query+= "phases.phase_choose_description, cards.card_number, cards.card_title, cards.card_content_front, "
         query+= "cards.card_content_back, cards.card_content_img_front, cards.card_content_img_back, cards.created_at, cards.updated_at "
         query+= "FROM cards "
