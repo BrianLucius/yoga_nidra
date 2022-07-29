@@ -51,3 +51,13 @@ def delete_sequence():
     }
     Sequence.delete_sequence(data)
     return jsonify('success'), 200
+
+@app.route("/sequence/play", methods=['POST'])
+def play_sequence():
+    if 'user_id' not in session:
+        return redirect('/')
+    data = {
+        **request.get_json()
+    }
+    Sequence.update_sequence_played(data)
+    return jsonify('success'), 200

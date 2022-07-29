@@ -12,6 +12,63 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
     </head>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic);
+        .otro-blockquote{
+        font-size: 1.2em;
+        width:50%;
+        margin:50px auto;
+        font-family:Open Sans;
+        font-style:italic;
+        color: #555555;
+        padding:1.1em 20px 1.1em 45px;
+        border-left:8px solid #78C0A8 ;
+        line-height:1.4;
+        position: relative;
+        background:#EDEDED;
+        box-shadow: 10px 10px 18px;
+        }
+
+        .otro-blockquote::before{
+        font-family:Arial;
+        content: "\201C";
+        color:#78C0A8;
+        font-size:10em;
+        position: absolute;
+        left: 10px;
+        top: -30px;
+        z-index: 1;
+        }
+
+        .otro-blockquote::after{
+        content: '';
+        }
+
+        .otro-blockquote span{
+        display:block;
+        color:#333333;
+        font-style: normal;
+        font-weight: bold;
+        margin-top:1em;
+        position: relative;
+        z-index: 2;
+        }
+
+        .carousel{
+        }
+        .carousel-inner{
+            height: 700px;
+        }
+        .carousel-caption{
+            color: #555555;
+            top: 50%;
+            text-align: left;
+        }
+        #content {
+            width: 80%;
+            margin: 0 auto;
+        }
+    </style>
     <body>
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
@@ -38,9 +95,15 @@
                     </ul>
                     <div id="content">
                     </div>
+                    <blockquote class="otro-blockquote">
+                        <span id="quote"></span>
+                        <span id="author"></span>
+                        <p style="font-size: .75rem; margin-top: 20px; text-align: center;">Inspirational quotes provided by <a href="https://zenquotes.io/" target="_blank">ZenQuotes API</a></p>
+                    </blockquote>
                 </div>
             </div>
         </div>
+        <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
         <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
         <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>

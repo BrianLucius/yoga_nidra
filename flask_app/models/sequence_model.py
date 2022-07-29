@@ -68,6 +68,13 @@ class Sequence:
         return connectToMySQL(DATABASE).query_db(query, data)
 
     @classmethod
+    def update_sequence_played(cls, data):
+        query = "UPDATE sequences "
+        query+= "SET sequence_last_played=%(sequence_last_played)s, sequence_played_count=%(sequence_played_count)s "
+        query+= "WHERE id=%(sequence_id)s;"
+        return connectToMySQL(DATABASE).query_db(query, data)
+
+    @classmethod
     def delete_sequence(cls, data):
         query = "DELETE FROM sequences "
         query+= "WHERE id=%(sequence_id)s;"

@@ -1,15 +1,33 @@
 // zenquotes.io is CORS enabled. Must move the api call to the server side
-// function getQotd(){
-//     fetch('https://zenquotes.io/api/random/')
-//         .then(res =>  res.json())
-//         .then(data => {
-//             console.log(data);
-//             var quote_div = document.getElementById('qotd');
-//             quote_div.innerHTML = data['h'];
-//             }
-//         )
-// }
-// getQotd();
+// Start the express CORS proxy server in the /proxyserver folder first: node server.js
+// to enable QOTD
+function getQotd(){
+    // fetch("https://zenquotes.io/api/random/")
+    fetch('http://localhost:3000')
+        .then(res =>  res.json())
+        .then(data => {
+            console.log(data);
+            if (data == null) {
+                var quote_div = document.getElementById('quote');
+                quote_div.innerHTML = "The person currently in front of you is the most important person in the world.";
+                var quote_div = document.getElementById('author');
+                quote_div.innerHTML = "-- Tracie Hinton-Chavez";
+            } else {
+                var quote_div = document.getElementById('quote');
+                quote_div.innerHTML = data[0]['q'];
+                var quote_div = document.getElementById('author');
+                quote_div.innerHTML = "-- "+data[0]['a'];
+            }
+        })
+        .catch(error => {
+            console.log("API call failure: ", error);
+            var quote_div = document.getElementById('quote');
+            quote_div.innerHTML = "The person currently in front of you is the most important person in the world.";
+            var quote_div = document.getElementById('author');
+            quote_div.innerHTML = "-- Tracie Hinton-Chavez";
+        })
+}
+getQotd();
 
 var my_sequence=[];
 
@@ -36,6 +54,8 @@ function get_user_sequences(){
     th_sequence_played.innerHTML = 'Played Count';
     let th_sequence_created = document.createElement('th');
     th_sequence_created.innerHTML = "Date Created";
+    let th_sequence_played_date = document.createElement('th');
+    th_sequence_played_date.innerHTML = "Last Played";
     let th_sequence_view = document.createElement('th');
     th_sequence_view.innerHTML = "";
     let table_body = document.createElement('tbody');
@@ -44,13 +64,10 @@ function get_user_sequences(){
     table_row.appendChild(th_sequence_visibility);
     table_row.appendChild(th_sequence_played);
     table_row.appendChild(th_sequence_created);
+    table_row.appendChild(th_sequence_played_date);
     table_row.appendChild(th_sequence_view);
     table_layout.appendChild(table_head);
     table_layout.appendChild(table_body);
-    // content.appendChild(table_layout);
-            // let table_body_row = document.createElement('tr');
-            // table_body.appendChild(table_body_row);
-            // table_body_row.appendChild(th_sequence_created);
     fetch('http://localhost:5001/sequences')
         .then(res =>  res.json())
         .then(data => {
@@ -73,9 +90,19 @@ function get_user_sequences(){
                 table_body_row.appendChild(td_played_count);
 
                 let td_date_created = document.createElement('td');
-                table_body_row.appendChild(td_date_created);
                 const date_created = new Date(data[i].created_at);
                 td_date_created.innerHTML = date_created.toDateString();
+                table_body_row.appendChild(td_date_created);
+
+                let td_date_played = document.createElement('td');
+                if (data[i].sequence_last_played != null) {
+                    let date_played = new Date(data[i].sequence_last_played);
+                    td_date_played.innerHTML = date_played.toDateString();
+                } else {
+                    td_date_played.innerHTML = "Never";
+                };
+                table_body_row.appendChild(td_date_played);
+
                 let td_view_btn = document.createElement('td');
                 let seq_view_btn = document.createElement('button');
                 seq_view_btn.id = data[i].id;
@@ -323,17 +350,22 @@ function view_sequence(id)
             header_col3.appendChild(header_played_count_data);
             header_row.appendChild(header_col4);
             let header_last_played_data = document.createElement('h4');
-            header_last_played_data.innerHTML=!data[0].sequence_last_played == null ? data[0].sequence_last_played : "Never";
+            if (data[0].sequence_last_played != null) {
+                let date_played = new Date(data[0].sequence_last_played);
+                header_last_played_data.innerHTML = date_played.toDateString();
+            } else {
+                header_last_played_data.innerHTML = "Never";
+            };
             header_col4.appendChild(header_last_played_data);
             header_row.appendChild(header_col5);
-            let delete_sequence_btn = document.createElement('button');
-            delete_sequence_btn.id = data[0].id;
-            delete_sequence_btn.innerHTML = 'Delete Sequence';
-            delete_sequence_btn.classList = "btn btn-danger"
-            delete_sequence_btn.addEventListener('click', function(){
-                btn_delete_sequence(this.id);
+            let play_sequence_btn = document.createElement('button');
+            play_sequence_btn.id = data[0].id;
+            play_sequence_btn.innerHTML = 'Play Sequence';
+            play_sequence_btn.classList = "btn btn-success"
+            play_sequence_btn.addEventListener('click', function(){
+                play_sequence(data);
             });
-            header_col5.appendChild(delete_sequence_btn);
+            header_col5.appendChild(play_sequence_btn);
 
             content.appendChild(header_row);
             header_row.appendChild(header_col1);
@@ -397,6 +429,96 @@ function view_sequence(id)
                 card_body_def.appendChild(card_body_class);
                 card_id_div.appendChild(card_class);
             }
+            let delete_sequence_btn = document.createElement('button');
+            delete_sequence_btn.id = data[0].id;
+            delete_sequence_btn.innerHTML = 'Delete Sequence';
+            delete_sequence_btn.classList = "btn btn-outline-danger m-3"
+            delete_sequence_btn.addEventListener('click', function(){
+                btn_delete_sequence(this.id);
+            });
+            content.appendChild(delete_sequence_btn);
+        });
+}
+
+function play_sequence(sequence_data)
+{
+    // console.log("Playing sequence:", sequence_data);
+    var content = document.getElementById('content');
+    content.innerHTML = '';
+
+    let page_header = document.createElement('div');
+    page_header.classList = "page-header mt-3";
+    let page_title = document.createElement('h5');
+    page_title.innerHTML = "Playing Saved Sequence";
+    page_header.appendChild(page_title);
+    content.appendChild(page_header);
+
+    let carousel_class = document.createElement("div");
+    carousel_class.classList = "carousel slide carousel-fade border rounded shadow-lg";
+    carousel_class.setAttribute("id", "carouselControls");
+    carousel_class.setAttribute("data-interval", "false");
+    content.appendChild(carousel_class);
+    let carousel_indicators = document.createElement("div");
+    carousel_indicators.classList = "carousel-indicators";
+    carousel_class.appendChild(carousel_indicators);
+    let carousel_inner = document.createElement("div");
+    carousel_inner.classList = "carousel-inner";
+    carousel_class.appendChild(carousel_inner);
+    for (let i=0; i<sequence_data[1].length; i++) {
+        let carousel_button = document.createElement("button");
+        carousel_button.setAttribute("type","button");
+        carousel_button.setAttribute("data-bs-target","#carouselIndicators");
+        carousel_button.setAttribute("data-bs-slide-to",i);
+        carousel_button.setAttribute("aria-label","Slide "+i);
+        if (i==0) {
+            carousel_button.setAttribute("class","active");
+        };
+        carousel_indicators.appendChild(carousel_button);
+
+        let carousel_item = document.createElement("div");
+        carousel_item.classList = "carousel-item" + (i==0 ? " active": "");
+        carousel_inner.appendChild(carousel_item);
+        let carousel_caption = document.createElement("div");
+        carousel_caption.classList = "carousel-caption";
+        carousel_caption.innerHTML = sequence_data[1][i].card_content_front;
+        carousel_item.appendChild(carousel_caption);
+        carousel_inner.appendChild(carousel_item);
+    }
+    let carousel_nav_left = document.createElement("a");
+    carousel_nav_left.classList = "carousel-control-prev";
+    carousel_nav_left.setAttribute("href","#carouselControls");
+    carousel_nav_left.setAttribute("role","button");
+    carousel_nav_left.setAttribute("data-slide","prev");
+    carousel_nav_left.innerHTML = `<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>`;
+    carousel_class.appendChild(carousel_nav_left);
+
+    let carousel_nav_right = document.createElement("a");
+    carousel_nav_right.classList = "carousel-control-next";
+    carousel_nav_right.setAttribute("href","#carouselControls");
+    carousel_nav_right.setAttribute("role","button");
+    carousel_nav_right.setAttribute("data-slide","next");
+    carousel_nav_right.innerHTML = `<span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>`
+    carousel_class.appendChild(carousel_nav_right);
+
+    const date = new Date();
+    z = date.getTimezoneOffset() * 60 * 1000
+    tLocal = date-z
+    tLocal = new Date(tLocal)
+    current_date = tLocal.toISOString()
+    current_date = current_date.slice(0, 19)
+    current_date = current_date.replace('T', ' ')
+
+    sequence_data = {
+        "sequence_id": sequence_data[0].id,
+        "sequence_last_played" : current_date,
+        "sequence_played_count" : sequence_data[0].sequence_played_count+=1
+    }
+    fetch('http://localhost:5001/sequence/play', {method:'POST', body: JSON.stringify(sequence_data), headers: {'Content-type': 'application/json; charset=UTF-8'}})
+        .then(response => response.json())
+        .then(function(data) {
+            console.log(data);
         });
 }
 
