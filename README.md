@@ -10,7 +10,7 @@ For my first full-stack application, I created a Yoga Nidra Script manager appli
 This solution solves the challenge of building and saving custom scripts for later recall.
 
 ## 👾 Tech Stack
-[![My Skills](https://skillicons.dev/icons?i=python,flask,mysql,js,html,css,bootstrap)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=python,flask,mysql,js,html,css,bootstrap)](https://skillicons.dev)  
 The application is built exclusively in Python using Flask and Jinja2 as the template engine. The backend is a relational database running on MySQL. 
 
 Other features include using the python bcrypt library to validate and store encrypted user passwords at rest and python-dotenv to store database credentials outside of version controlled files.
