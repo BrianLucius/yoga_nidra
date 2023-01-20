@@ -3,7 +3,7 @@
 
 This is my capstone project for the Coding Dojo Python stack. 
 
-After earning a Black Belt on my Python Stack exam (indicating mastery of both core and advanced concepts, plus the ability to synthesize new concepts under pressure), students are allotted no more than seven days to design, plan, build, publish, and present a full-stack web application to their cohort.
+After earning a Black Belt on my Python Stack exam (indicating mastery of both core and advanced concepts, plus the ability to synthesize new concepts under pressure), ninjas are allotted no more than seven days to design, plan, build, publish, and present a full-stack web application to their cohort.
 
 For my first full-stack application, I created a Yoga Nidra Script manager application to support my growth as a yoga teacher and meditation facilitator. The particular lineage of Yoga Nidra I study and practice dictates a precise set of languaging and scripts to be used to guide the practitioner on their journey. There are multiple choices of scripts for each stage of the practice, therefore, building and keeping track of facilitators and practitioners favorite meditations can be challenging.
 
