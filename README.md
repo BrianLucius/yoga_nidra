@@ -16,12 +16,16 @@ Other features include using the bcrypt library to validate and store encrypted 
 
 Additionally, the [zenquotes.io](https://zenquotes.io/) free API was integrated to provide random inspirational quotes to application users on their dashboards.
 
+The ERD can be found [here](https://user-images.githubusercontent.com/29583448/213787543-a5869f2c-5996-4cd3-81a3-3918759a43f3.png)
+
+
 ## 🍿 Demo
 * Provides new user registration
 * Supports user authentication, credential validation and requires password complexity
 * Offers the ability for application users to create, edit, and delete any of their saved sequences
 * Playback of the sequence is offered in a minimalist view to reduce distractions
-[View the demo video](https://youtu.be/b7hhidRaD1A)
+
+[View the application demo video](https://youtu.be/b7hhidRaD1A)
 
 ## 🙏 Gratitude
 Tremendous gratitude to [Alfredo Salazar](https://www.linkedin.com/in/alfredo-salazar-6562b4a1/) and [Spencer Rauch](https://www.linkedin.com/in/spencer-rauch/), my instructors for the python stack. Their experience, patience, and thoroughness contributed immensely to a hugely successful outcome for this stack.
