@@ -1,0 +1,30 @@
+# Ignore Mac system files
+.DS_store
+
+# Ignore node_modules folder
+node_modules
+package-lock.json
+package.json
+
+# Ignore all text files
+*.txt
+
+# Ignore files related to API keys
+.env
+
+# Ignore experimentation files
+x_*
+
+# Ignore py cache files
+*.pyc
+
+# Ignore MySQL Workbench files
+*.mwb
+*.mwb.*
+*.sql
+*.pdf
+
+# Ignore config.js files
+config.js
+
+*.xlsx
